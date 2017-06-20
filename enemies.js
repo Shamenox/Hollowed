@@ -5,8 +5,8 @@ function startMonsters(){
 }
 
 enemy.kralko = {
-	x : Math.floor((Math.random() * rooms.width) + 1),
-	y : Math.floor((Math.random() * rooms.depth) + 1),
+	x : Math.floor((Math.random() * 22) + 1),
+	y : Math.floor((Math.random() * 23) + 1),
 	dir : "north",
 	triggered : false
 }

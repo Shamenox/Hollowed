@@ -1,17 +1,25 @@
 var Game = {};
+var map = new Map(14, 15);
 var random = 0;
 var danger = false;
 
 player = {
-	x : 11,
+	x : 0,
 	y : 0,
-	dir : "north"
+	dir : "north",
+	room : null,
+	place : function(on){
+		this.x = on.startRoomX;
+		this.y = on.startRoomY;
+	}
 };
 
 function displayRoom(){
+	player.room = map.getRoom(player.x, player.y);
+	console.log(player.room);
 	Game.ctx.drawImage(image.plain, 0, 0);
 	if (player.dir === "north"){
-		if (map[player.x][player.y].north === "pass") {
+		if (player.room.north === "pass") {
 			Game.ctx.drawImage(image.pass_center,0,0);
 		}
 		if (map[player.x][player.y].west === "pass") {
@@ -180,10 +188,13 @@ window.onload = function() {
 	loadImages();
 	loadAudio();
 
-	//start drawloop
+	map._random();
+	map.randomizeDoors();
+	console.log(map);
+	player.place(map);
 	startMonsters();
 	setInterval (function(){danger = false;}, 30000);
-	draw();
+	draw(); //start drawloop
 };
 
 function draw(){

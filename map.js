@@ -1,23 +1,4 @@
-var rooms = {};
-	rooms.width = 23;
-	rooms.depth = 22;
-var map = {};
-for (var i = 0; i < 32; i++){
-	map[i] = {};
-	for (var h = 0; h < 32; h++){
-		map[i][h] = {
-			north : "pass",
-			south : "pass",
-			east : "pass",
-			west : "pass",
-			light : true,
-		}
-	}
-}
 
-
-
-////
 
 class Room {
     constructor(x, y) {
@@ -98,7 +79,7 @@ class Map {
        return Math.floor((this._random() * max) + min);
     }
 
-    GetAtCoord(x, y) {
+    getRoom(x, y) {
         for (var i = 0; i < this._rooms.length; i++) {
             var element = this._rooms[i]
             
@@ -110,8 +91,8 @@ class Map {
 
 
 
-    RandomizeDoors() {
-        let startRoom = this.GetAtCoord(
+    randomizeDoors() {
+        let startRoom = this.getRoom(
             Math.floor(this.bounds.width / 2),
             Math.floor(this.bounds.height / 2)
         )
@@ -132,7 +113,7 @@ class Map {
 
         for (var x = 1; x < this.bounds.width-1; x++) {
             for (var y = 1; y < this.bounds.height-1; y++) {
-                var room = this.GetAtCoord(x, y)
+                var room = this.getRoom(x, y)
                 
                 if ((room.GetDoorCount() === 0) || (room.GetDoorCount() === 4)) continue;
 
@@ -165,28 +146,28 @@ class Map {
     }
 
     CreateDoorNorth(roomSource) {
-        const roomDest = this.GetAtCoord(roomSource.x, roomSource.y - 1)
+        const roomDest = this.getRoom(roomSource.x, roomSource.y - 1)
         const door = new Door(roomSource, roomDest)
 
         roomSource.doorNorth = door
         roomDest.doorNorth = door
     }
     CreateDoorSouth(roomSource) {
-        const roomDest = this.GetAtCoord(roomSource.x, roomSource.y + 1)
+        const roomDest = this.getRoom(roomSource.x, roomSource.y + 1)
         const door = new Door(roomSource, roomDest)
 
         roomSource.doorSouth = door
         roomDest.doorSouth = door
     }
     CreateDoorEast(roomSource) {
-        const roomDest = this.GetAtCoord(roomSource.x + 1, roomSource.y)
+        const roomDest = this.getRoom(roomSource.x + 1, roomSource.y)
         const door = new Door(roomSource, roomDest)
 
         roomSource.doorEast = door
         roomDest.doorEast = door
     }
     CreateDoorWest(roomSource) {
-        const roomDest = this.GetAtCoord(roomSource.x - 1, roomSource.y)
+        const roomDest = this.getRoom(roomSource.x - 1, roomSource.y)
         const door = new Door(roomSource, roomDest)
 
         roomSource.doorWest = door
@@ -194,16 +175,16 @@ class Map {
     }
 
     CanPutDoorNorthAt(x, y) {        
-        return this.GetAtCoord(x, y - 1).GetDoorCount() === 0
+        return this.getRoom(x, y - 1).GetDoorCount() === 0
     }
     CanPutDoorSouthAt(x, y) {       
-        return this.GetAtCoord(x, y + 1).GetDoorCount() === 0
+        return this.getRoom(x, y + 1).GetDoorCount() === 0
     }
     CanPutDoorWestAt(x, y) {     
-        return this.GetAtCoord(x - 1, y).GetDoorCount() === 0
+        return this.getRoom(x - 1, y).GetDoorCount() === 0
     }
     CanPutDoorEastAt(x, y) {
        
-        return this.GetAtCoord(x + 1, y).GetDoorCount() === 0
+        return this.getRoom(x + 1, y).GetDoorCount() === 0
     }
 }
