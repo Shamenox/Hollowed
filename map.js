@@ -1,5 +1,3 @@
-
-
 class Room {
     constructor(x, y) {
         this.x = x
@@ -44,6 +42,7 @@ class Door {
         this.roomA = roomA
         this.roomB = roomB
         this.trasition = null
+		this.type = "pass"
     }
 
     getOppositeRoom(room) {
@@ -92,10 +91,10 @@ class Map {
 
 
     randomizeDoors() {
-        let startRoom = this.getRoom(
-            Math.floor(this.bounds.width / 2),
-            Math.floor(this.bounds.height / 2)
-        )
+		let startRoom = this.getRoom(
+			Math.floor(this.bounds.width / 2),
+			Math.floor(this.bounds.height / 2)
+		)
 
         this.CreateDoorNorth(startRoom)
         this.CreateDoorWest(startRoom)
