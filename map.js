@@ -37,12 +37,22 @@ class Room {
 
         return count
     }
+
+    DoorsAsArray() {
+        let result = []
+        if (this.doorNorth) result.push(this.doorNorth)
+        if (this.doorSouth) result.push(this.doorSouth)
+        if (this.doorWest) result.push(this.doorWest)
+        if (this.doorEast) result.push(this.doorEast)
+        return result
+    }
 }
 
 class Door {
     constructor(roomA, roomB) {
         this.roomA = roomA
         this.roomB = roomB
+        this.type = "pass"
         this.trasition = null
     }
 
@@ -186,5 +196,18 @@ class Map {
     CanPutDoorEastAt(x, y) {
        
         return this.getRoom(x + 1, y).GetDoorCount() === 0
+    }
+
+    JoinCorridoors() {
+        for (let index = 0; index < this._rooms.length; index++) {
+            let element = this._rooms[index]
+
+            if (element.GetDoorCount() === 1) continue;
+
+            element.DoorsAsArray()[0].type = (
+                (this._randomRange(0, 10) === 5) ? "door" : "locked"
+            )      
+            
+        }
     }
 }
