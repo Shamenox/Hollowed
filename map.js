@@ -173,27 +173,27 @@ class Map {
         const door = new Door(roomSource, roomDest)
 
         roomSource.doorNorth = door
-        roomDest.doorNorth = door
+        roomDest.doorSouth = door
     }
     CreateDoorSouth(roomSource) {
         const roomDest = this.getRoom(roomSource.x, roomSource.y + 1)
         const door = new Door(roomSource, roomDest)
 
         roomSource.doorSouth = door
-        roomDest.doorSouth = door
+        roomDest.doorNorth = door
     }
     CreateDoorEast(roomSource) {
         const roomDest = this.getRoom(roomSource.x + 1, roomSource.y)
         const door = new Door(roomSource, roomDest)
 
         roomSource.doorEast = door
-        roomDest.doorEast = door
+        roomDest.doorWest = door
     }
     CreateDoorWest(roomSource) {
         const roomDest = this.getRoom(roomSource.x - 1, roomSource.y)
         const door = new Door(roomSource, roomDest)
 
-        roomSource.doorWest = door
+        roomSource.doorEast = door
         roomDest.doorWest = door
     }
 
