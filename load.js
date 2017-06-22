@@ -41,5 +41,6 @@ function loadAudio(){
 	audio.scream4 = new Audio("ress/audio/scream4.mp3");
 	audio.shout1 = new Audio("ress/audio/shout1.mp3");
 	audio.shout2 = new Audio("ress/audio/shout2.mp3");
+	audio.door = new Audio("ress/audio/door.mp3");
 }
 

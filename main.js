@@ -4,7 +4,7 @@ var random = 0;
 var danger = false;
 var startRoom = {
 	x : 7,
-	y : 0
+	y : 6
 }
 
 player = {
@@ -12,11 +12,13 @@ player = {
 	y : 0,
 	dir : "North",
 	room : null,
-	place : function(on){
-		this.x = on.x;
-		this.y = on.x;
-	}
 };
+
+function place(who, on){
+	who.x = on.x;
+	who.y = on.y;
+	reportPosition(who);
+}
 
 function adjustDir(from, to){
 	if (to === undefined) return from;
@@ -26,76 +28,43 @@ function adjustDir(from, to){
 	if ((from === "East" && to === "left") || (from === "West" && to === "right") || (from === "North" && to === "back")) return "South";
 }
 
+function reportPosition(of){
+	console.log(of.x, of.y, of.dir);
+}
+
+
+
 function displayRoom(){
-	player.room = map.getRoom(player.x, player.y);
 	Game.ctx.drawImage(image.plain, 0, 0);
 	if (player.room["door" + player.dir] !== null){
 		if (player.room["door" + player.dir].type === "pass") Game.ctx.drawImage(image.pass_center,0,0);
-		if (player.room["door" + player.dir].type === "open" || player.room["door" + player.dir].type === "locked") Game.ctx.drawImage(image.door_center,0,0);
+		if (player.room["door" + player.dir].type === "door" || player.room["door" + player.dir].type === "locked") Game.ctx.drawImage(image.door_center,0,0);
 	}
 	if (player.room["door" + adjustDir(player.dir, "left")] !== null){
 		if (player.room["door" + adjustDir(player.dir, "left")].type === "pass") Game.ctx.drawImage(image.pass_left,0,0);
-		if (player.room["door" + adjustDir(player.dir, "left")].type === "open" || player.room["door" + adjustDir(player.dir, "right")].type === "locked") Game.ctx.drawImage(image.door_left,0,0);
+		if (player.room["door" + adjustDir(player.dir, "left")].type === "door" || player.room["door" + adjustDir(player.dir, "left")].type === "locked") Game.ctx.drawImage(image.door_left,0,0);
 	}
 	if (player.room["door" + adjustDir(player.dir, "right")] !== null){
 		if (player.room["door" + adjustDir(player.dir, "right")].type === "pass") Game.ctx.drawImage(image.pass_left,0,0);
-		if (player.room["door" + adjustDir(player.dir, "right")].type === "open" || player.room["door" + adjustDir(player.dir, "right")].type === "locked") Game.ctx.drawImage(image.door_right,0,0);
+		if (player.room["door" + adjustDir(player.dir, "right")].type === "door" || player.room["door" + adjustDir(player.dir, "right")].type === "locked") Game.ctx.drawImage(image.door_right,0,0);
 	}
 }
+
 
 function move(){
 	
 	if (intervalReact(key.w, 500, "walk")){
-		if (player.dir === "North" && player.room.doorNorth !== null && player.room.doorNorth.type !== "locked"){
-			player.y += 1;
-		}
-		else {
-			if (player.dir === "West" && player.room.doorWest !== null && player.room.doorWest.type !== "locked"){
-				player.x -= 1;
-			}
-			else {
-				if (player.dir === "South" && player.room.doorSouth !== null && player.room.doorSouth.type !== "locked"){
-					player.y -= 1;
-				}
-				else {
-					if (player.dir === "East" && player.room.doorEast !== null && player.room.doorEast.type !== "locked"){
-					player.x += 1;
-					}
-				}
-			}
-		}
-		reportPosition(player);
+		if (player.room["door" + player.dir] !== null) player.room["door" + player.dir].walkThrough(player);
 	}
-	
 	
 	if (intervalReact(key.s, 500, "walk")){
-		if (player.dir === "North" && player.room.doorSouth !== null && player.room.doorSouth.type !== "locked"){
-			player.y -= 1;
-		}
-		else {
-			if (player.dir === "West" && player.room.doorEast !== null && player.room.doorEast.type !== "locked"){
-				player.x += 1;
-			}
-			else {
-				if (player.dir === "South" && player.room.doorNorth !== null && player.room.doorNorth.type !== "locked"){
-						player.y += 1;
-				}
-				else {
-					if (player.dir === "East"  && player.room.doorEast !== null && player.room.doorEast.type !== "locked"){
-						player.x -= 1;
-					}
-				}
-			}
-		}
-		reportPosition(player);
+		if (player.room["door" + adjustDir(player.dir, "back")] !== null) player.room["door" + adjustDir(player.dir, "back")].walkThrough(player);
 	}
-	
 	
 	if (intervalReact(key.a, 200, "turn")){
 		player.dir = adjustDir(player.dir, "left");
 		reportPosition(player);
 	}
-	
 	
 	if (intervalReact(key.d, 200, "turn")){
 		player.dir = adjustDir(player.dir, "right");
@@ -103,9 +72,9 @@ function move(){
 	}
 }
 
-function reportPosition(of){
-	console.log(of.x, of.y, of.dir);
-}
+
+
+
 
 // Canvas-Initialisierung
 window.onload = function() {
@@ -120,13 +89,14 @@ window.onload = function() {
 	map._random();
 	map.randomizeDoors();
 	console.log(map);
-	player.place(startRoom);
+	place(player, startRoom);
 	startMonsters();
 	setInterval (function(){danger = false;}, 30000);
 	draw(); //start drawloop
 };
 
 function draw(){
+	player.room = map.getRoom(player.x, player.y);
 	displayRoom();
 	Game.ctx.drawImage(image.cursor, cursor.x, cursor.y);
 	move();

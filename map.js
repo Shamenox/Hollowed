@@ -61,6 +61,20 @@ class Door {
 
         throw new Error('This door does not know the room at x:' + room.x + " y:" + room.y)
     }
+	
+	walkThrough(who){
+		if (this.type === "locked") {
+			
+		}
+		else {
+			reportPosition(who);
+			if (who.room === this.roomA){
+				place(who, this.roomB);
+			}
+			else place(who, this.roomA);
+			if (this.type === "door") audio.door.play();
+		}
+	}
 }
 
 class Map {
