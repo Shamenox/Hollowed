@@ -22,10 +22,10 @@ function place(who, on){
 
 function adjustDir(from, to){
 	if (to === undefined) return from;
-	if ((from === "North" && to === "left") || (from === "South" && to === "right") || (from === "West" && to === "back")) return "East";
-	if ((from === "North" && to === "right") || (from === "South" && to === "left") || (from === "East" && to === "back")) return "West";
-	if ((from === "West" && to === "left") || (from === "East" && to === "right") || (from === "South" && to === "back")) return "South";
-	if ((from === "East" && to === "left") || (from === "West" && to === "right") || (from === "North" && to === "back")) return "North";
+	if ((from === "North" && to === "left") || (from === "South" && to === "right") || (from === "East" && to === "back")) return "West";
+	if ((from === "North" && to === "right") || (from === "South" && to === "left") || (from === "West" && to === "back")) return "East";
+	if ((from === "West" && to === "left") || (from === "East" && to === "right") || (from === "North" && to === "back")) return "South";
+	if ((from === "East" && to === "left") || (from === "West" && to === "right") || (from === "South" && to === "back")) return "North";
 }
 
 function reportPosition(of){
@@ -45,7 +45,7 @@ function displayRoom(){
 		if (player.room["door" + adjustDir(player.dir, "left")].type === "door" || player.room["door" + adjustDir(player.dir, "left")].type === "locked") Game.ctx.drawImage(image.door_left,0,0);
 	}
 	if (player.room["door" + adjustDir(player.dir, "right")] !== null){
-		if (player.room["door" + adjustDir(player.dir, "right")].type === "pass") Game.ctx.drawImage(image.pass_left,0,0);
+		if (player.room["door" + adjustDir(player.dir, "right")].type === "pass") Game.ctx.drawImage(image.pass_right,0,0);
 		if (player.room["door" + adjustDir(player.dir, "right")].type === "door" || player.room["door" + adjustDir(player.dir, "right")].type === "locked") Game.ctx.drawImage(image.door_right,0,0);
 	}
 }
