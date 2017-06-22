@@ -24,8 +24,8 @@ function adjustDir(from, to){
 	if (to === undefined) return from;
 	if ((from === "North" && to === "left") || (from === "South" && to === "right") || (from === "West" && to === "back")) return "East";
 	if ((from === "North" && to === "right") || (from === "South" && to === "left") || (from === "East" && to === "back")) return "West";
-	if ((from === "West" && to === "left") || (from === "East" && to === "right") || (from === "South" && to === "back")) return "North";
-	if ((from === "East" && to === "left") || (from === "West" && to === "right") || (from === "North" && to === "back")) return "South";
+	if ((from === "West" && to === "left") || (from === "East" && to === "right") || (from === "South" && to === "back")) return "South";
+	if ((from === "East" && to === "left") || (from === "West" && to === "right") || (from === "North" && to === "back")) return "North";
 }
 
 function reportPosition(of){
