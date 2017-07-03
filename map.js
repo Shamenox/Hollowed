@@ -193,8 +193,8 @@ class Map {
         const roomDest = this.getRoom(roomSource.x - 1, roomSource.y)
         const door = new Door(roomSource, roomDest)
 
-        roomSource.doorEast = door
-        roomDest.doorWest = door
+        roomSource.doorWest = door
+        roomDest.doorEast = door
     }
 
     CanPutDoorNorthAt(x, y) {        
