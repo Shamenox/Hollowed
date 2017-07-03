@@ -10,19 +10,19 @@ class Room {
     }
 
     GetNorthRoom() {
-        return this.doorNorth.getOppositeRoom(this)
+        return this.doorNorth ? this.doorNorth.getOppositeRoom(this) : null
     }
 
     GetSouthRoom() {
-        return this.doorSouth.getOppositeRoom(this)
+        return this.doorSouth ? this.doorSouth.getOppositeRoom(this) : null
     }
 
     GetWestRoom() {
-        return this.doorWest.getOppositeRoom(this)
+        return this.doorWest ? this.doorWest.getOppositeRoom(this) : null
     }
 
     GetEastRoom() {
-        return this.doorEast.getOppositeRoom(this)
+        return this.doorEast ? this.doorEast.getOppositeRoom(this) : null
     }
 
     GetDoorCount() {
@@ -81,7 +81,7 @@ class Map {
     constructor(width, height, seed) {
         this.bounds = {width, height}
 
-        this._seedArgs = seed + 535232;
+        this._seedArgs = seed ? seed : Math.floor(Math.random() * 10000) + 535232;
 
         this._rooms = []
 
@@ -99,7 +99,7 @@ class Map {
     }
 
     _randomRange(min, max) {
-       return Math.floor((this._random() * max) + min);
+       return Math.floor((this._random() * (max + 1)) + min)
     }
 
     getRoom(x, y) {
@@ -126,9 +126,9 @@ class Map {
         this.CreateDoorEast(startRoom)
              
 
-       while(this.AddDoorWherePossible());
-
-       console.log("ok 0.0")
+        while(this.AddDoorWherePossible()) {
+            console.log("oki")
+        }
     }
 
     AddDoorWherePossible() {
@@ -139,23 +139,23 @@ class Map {
                 var room = this.getRoom(x, y)
                 
                 if ((room.GetDoorCount() === 0) || (room.GetDoorCount() === 4)) continue;
+          
+                const probability = 1
 
-             //   if (room.GetDoorCount() > 1)console.log(room.GetDoorCount())
-
-                if (this.CanPutDoorNorthAt(room.x, room.y) && (this._randomRange(0, 3) == 1)) {
-                    this.CreateDoorNorth(room)
+                if (this.CanPutDoorNorthAt(room.x, room.y)) {
+                    doorsChanged++
+                    if (this._randomRange(0, probability) == 1) this.CreateDoorNorth(room)
+                }
+                if (this.CanPutDoorWestAt(room.x, room.y)) {
+                    if (this._randomRange(0, probability) == 1) this.CreateDoorWest(room)
                     doorsChanged++
                 }
-                if (this.CanPutDoorWestAt(room.x, room.y) && (this._randomRange(0, 3) == 1)) {
-                    this.CreateDoorWest(room)
+                if (this.CanPutDoorSouthAt(room.x, room.y)) { 
+                    if (this._randomRange(0, probability) == 1) this.CreateDoorSouth(room)
                     doorsChanged++
                 }
-                if (this.CanPutDoorSouthAt(room.x, room.y) && (this._randomRange(0, 3) == 1)) {
-                    this.CreateDoorSouth(room)
-                    doorsChanged++
-                }
-                if (this.CanPutDoorEastAt(room.x, room.y) && (this._randomRange(0, 3) == 1)) {
-                    this.CreateDoorEast(room)
+                if (this.CanPutDoorEastAt(room.x, room.y)){
+                    if (this._randomRange(0, probability) == 1) this.CreateDoorEast(room)
                     doorsChanged++
                 }
 
@@ -223,4 +223,45 @@ class Map {
             
         }
     }
+
+    debugPrint() {
+        let printArr = []
+
+        for (var x = -1; x < this.bounds.width * 3 + 1; x++) {
+            printArr.push([])
+        }
+
+        for (var y = 0; y < printArr.length; y++) {
+           for (var x = -1; x < this.bounds.height * 3 + 1; x++) {
+                printArr[y].push(0)            
+            }   
+        }
+
+        for (var i = 0; i < this._rooms.length; i++) {
+            var element = this._rooms[i]
+            
+            let x = element.x * 3 + 1
+            let y = element.y * 3 + 1
+
+            printArr[y][x] = 2
+
+            if (element.GetNorthRoom()) printArr[y - 1][x] = 1
+            if (element.GetSouthRoom()) printArr[y + 1][x] = 1
+            if (element.GetWestRoom()) printArr[y][x - 1] = 1
+            if (element.GetEastRoom()) printArr[y][x + 1] = 1
+        }
+
+        for (var y = 0; y < printArr.length; y++) {
+            var element = printArr[y]
+            var str = ""
+            for (var x = 0; x < element.length; x++) {
+                str += element[x]              
+            }
+
+            console.log(str)
+        }
+      
+
+    }
 }
+
