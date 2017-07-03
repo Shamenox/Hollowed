@@ -1,13 +1,13 @@
 function draw(){
 	//player.room = map.getRoom(player.x, player.y);
-	displayRoom();
+	displayRooms();
 	Game.ctx.drawImage(image.cursor, cursor.x, cursor.y);
 	move(); //todo put that somewhere else
 	sounds(); //todo put that somewhere else
 	requestAnimationFrame(draw);
 }
 
-function displayRoom(){
+function displayRooms(){
 	Game.ctx.drawImage(image.plain, 0, 0);
 	
 
@@ -18,6 +18,6 @@ function drawRoom(room, screenX, screenY) {
     
     const roomSize = 100
 
-        
+
 
 }
