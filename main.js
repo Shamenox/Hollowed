@@ -82,7 +82,6 @@ window.onload = function() {
 	Game.ctx = canvas.getContext("2d");
 	Game.ctx.font = "24px Consolas";
 
-	setupInput();
 	loadImages();
 	loadAudio();
 
