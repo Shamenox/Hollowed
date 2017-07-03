@@ -77,6 +77,9 @@ window.onload = function() {
 	place(player, startRoom);
 	startMonsters();
 	setInterval (function(){danger = false;}, 30000);
+
+	player.room = map.getRoom(player.x, player.y);
+
 	draw(); //start drawloop
 };
 
