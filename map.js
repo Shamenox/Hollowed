@@ -25,6 +25,8 @@ class Room {
         return this.doorEast ? this.doorEast.getOppositeRoom(this) : null
     }
 
+
+
     GetDoorCount() {
         let count = 0
 
@@ -116,8 +118,8 @@ class Map {
 
     randomizeDoors() {
 		let startRoom = this.getRoom(
-			Math.floor(this.bounds.width / 2) + 1,
-			Math.floor(this.bounds.height / 2) + 1
+			Math.floor(this.bounds.width / 2),
+			Math.floor(this.bounds.height / 2)
 		)
 
         this.CreateDoorNorth(startRoom)
@@ -158,8 +160,6 @@ class Map {
                     if (this._randomRange(0, probability) == 1) this.CreateDoorEast(room)
                     doorsChanged++
                 }
-
-               console.log('')
             }
         }
    
@@ -170,12 +170,26 @@ class Map {
         const roomDest = this.getRoom(roomSource.x, roomSource.y - 1)
         const door = new Door(roomSource, roomDest)
 
+        if (roomSource.doorNorth) {
+            throw new Error()
+        }
+        if (roomDest.doorSouth) {
+            throw new Error()
+        }
+
         roomSource.doorNorth = door
         roomDest.doorSouth = door
     }
     CreateDoorSouth(roomSource) {
         const roomDest = this.getRoom(roomSource.x, roomSource.y + 1)
         const door = new Door(roomSource, roomDest)
+
+        if (roomSource.doorSouth) {
+            throw new Error()
+        }
+        if (roomDest.doorNorth) {
+            throw new Error()
+        }
 
         roomSource.doorSouth = door
         roomDest.doorNorth = door
@@ -184,6 +198,13 @@ class Map {
         const roomDest = this.getRoom(roomSource.x + 1, roomSource.y)
         const door = new Door(roomSource, roomDest)
 
+        if (roomSource.doorEast) {
+            throw new Error()
+        }
+        if (roomDest.doorWest) {
+            throw new Error()
+        }
+
         roomSource.doorEast = door
         roomDest.doorWest = door
     }
@@ -191,22 +212,28 @@ class Map {
         const roomDest = this.getRoom(roomSource.x - 1, roomSource.y)
         const door = new Door(roomSource, roomDest)
 
+        if (roomSource.doorWest) {
+            throw new Error()
+        }
+        if (roomDest.doorEast) {
+            throw new Error()
+        }
+
         roomSource.doorWest = door
         roomDest.doorEast = door
     }
 
     CanPutDoorNorthAt(x, y) {        
-        return this.getRoom(x, y - 1).GetDoorCount() === 0
+        return (this.getRoom(x, y - 1).GetDoorCount() === 0) && !this.getRoom(x, y).doorNorth 
     }
     CanPutDoorSouthAt(x, y) {       
-        return this.getRoom(x, y + 1).GetDoorCount() === 0
+        return (this.getRoom(x, y + 1).GetDoorCount() === 0) && !this.getRoom(x, y).doorSouth
     }
     CanPutDoorWestAt(x, y) {     
-        return this.getRoom(x - 1, y).GetDoorCount() === 0
+        return (this.getRoom(x - 1, y).GetDoorCount() === 0) && !this.getRoom(x, y).doorWest
     }
-    CanPutDoorEastAt(x, y) {
-       
-        return this.getRoom(x + 1, y).GetDoorCount() === 0
+    CanPutDoorEastAt(x, y) {      
+        return (this.getRoom(x + 1, y).GetDoorCount() === 0) && !this.getRoom(x, y).doorEast 
     }
 
     JoinCorridoors() {
