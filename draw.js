@@ -1,14 +1,14 @@
 function draw(){
 	//player.room = map.getRoom(player.x, player.y);
 	displayRooms();
-	Game.ctx.drawImage(image.cursor, cursor.x, cursor.y);
-	move(); //todo put that somewhere else
-	sounds(); //todo put that somewhere else
+//	Game.ctx.drawImage(image.cursor, cursor.x, cursor.y);
+//	move(); //todo put that somewhere else
+	//sounds(); //todo put that somewhere else
 	requestAnimationFrame(draw);
 }
 
 function displayRooms(){
-	Game.ctx.drawImage(image.blackscreen, 0, 0);
+//	Game.ctx.drawImage(image.blackscreen, 0, 0);
 	 Game.ctx.lineWidth = 5;
     map._rooms.forEach(function(element) {
         drawRoom(element, (element.x+1)* roomSize, (element.y+1) * roomSize)
@@ -37,7 +37,7 @@ function drawRoom(room, screenX, screenY) {
         x: screenX + roomSize,
         y: screenY,
     },
-    room.doorNorth ? "red" : "green"
+    room.doorNorth ? "green" : "red"
     )
 
     drawLine({
@@ -48,7 +48,7 @@ function drawRoom(room, screenX, screenY) {
         x: screenX + roomSize,
         y: screenY + roomSize,
     },
-    room.doorEast ? "red" : "green"
+    room.doorEast ? "green" : "red"
     )
 
     drawLine({
@@ -59,7 +59,7 @@ function drawRoom(room, screenX, screenY) {
         x: screenX,
         y: screenY + roomSize,
     },
-    room.doorSouth ? "red" : "green"
+    room.doorSouth ? "green" : "red"
     )
 
     drawLine({
@@ -70,10 +70,10 @@ function drawRoom(room, screenX, screenY) {
         x: screenX,
         y: screenY,
     },
-    room.doorWest ? "red" : "green"
+    room.doorWest ? "green" : "red"
     )
 
 
 }
 
-const roomSize = 100
+const roomSize = 30

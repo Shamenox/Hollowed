@@ -1,5 +1,5 @@
 var Game = {};
-var map = new Map(5, 5);
+var map = new Map(50, 50);
 var random = 0;
 var danger = false;
 var startRoom = {
@@ -68,17 +68,17 @@ window.onload = function() {
 	Game.ctx = canvas.getContext("2d");
 	Game.ctx.font = "24px Consolas";
 
-	loadImages();
-	loadAudio();
+//	loadImages();
+//	loadAudio();
 
 	map._random();
 	map.randomizeDoors();
-	console.log(map);
-	place(player, startRoom);
-	startMonsters();
-	setInterval (function(){danger = false;}, 30000);
+	//console.log(map);
+	//place(player, startRoom);
+	//startMonsters();
+	//setInterval (function(){danger = false;}, 30000);
 
-	player.room = map.getRoom(player.x, player.y);
+	//player.room = map.getRoom(player.x, player.y);
 
 	draw(); //start drawloop
 };
