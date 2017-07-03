@@ -34,21 +34,7 @@ function reportPosition(of){
 
 
 
-function displayRoom(){
-	Game.ctx.drawImage(image.plain, 0, 0);
-	if (player.room["door" + player.dir] !== null){
-		if (player.room["door" + player.dir].type === "pass") Game.ctx.drawImage(image.pass_center,0,0);
-		if (player.room["door" + player.dir].type === "door" || player.room["door" + player.dir].type === "locked") Game.ctx.drawImage(image.door_center,0,0);
-	}
-	if (player.room["door" + adjustDir(player.dir, "left")] !== null){
-		if (player.room["door" + adjustDir(player.dir, "left")].type === "pass") Game.ctx.drawImage(image.pass_left,0,0);
-		if (player.room["door" + adjustDir(player.dir, "left")].type === "door" || player.room["door" + adjustDir(player.dir, "left")].type === "locked") Game.ctx.drawImage(image.door_left,0,0);
-	}
-	if (player.room["door" + adjustDir(player.dir, "right")] !== null){
-		if (player.room["door" + adjustDir(player.dir, "right")].type === "pass") Game.ctx.drawImage(image.pass_right,0,0);
-		if (player.room["door" + adjustDir(player.dir, "right")].type === "door" || player.room["door" + adjustDir(player.dir, "right")].type === "locked") Game.ctx.drawImage(image.door_right,0,0);
-	}
-}
+
 
 
 function move(){
@@ -94,14 +80,7 @@ window.onload = function() {
 	draw(); //start drawloop
 };
 
-function draw(){
-	player.room = map.getRoom(player.x, player.y);
-	displayRoom();
-	Game.ctx.drawImage(image.cursor, cursor.x, cursor.y);
-	move();
-	sounds();
-	requestAnimationFrame(draw);
-}
+
 
 function sounds(){
 	if (!danger && player.room.light){
