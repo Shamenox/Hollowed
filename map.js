@@ -116,8 +116,8 @@ class Map {
 
     randomizeDoors() {
 		let startRoom = this.getRoom(
-			Math.floor(this.bounds.width / 2),
-			Math.floor(this.bounds.height / 2)
+			Math.floor(this.bounds.width / 2) + 1,
+			Math.floor(this.bounds.height / 2) + 1
 		)
 
         this.CreateDoorNorth(startRoom)
@@ -126,9 +126,9 @@ class Map {
         this.CreateDoorEast(startRoom)
              
 
-        while(this.AddDoorWherePossible()) {
-            console.log("oki")
-        }
+        while(this.AddDoorWherePossible()) ;
+           
+        
     }
 
     AddDoorWherePossible() {
@@ -159,12 +159,10 @@ class Map {
                     doorsChanged++
                 }
 
-               
+               console.log('')
             }
         }
-
-        console.log(doorsChanged)
-
+   
         return doorsChanged
     }
 
@@ -193,8 +191,8 @@ class Map {
         const roomDest = this.getRoom(roomSource.x - 1, roomSource.y)
         const door = new Door(roomSource, roomDest)
 
-        roomSource.doorEast = door
-        roomDest.doorWest = door
+        roomSource.doorWest = door
+        roomDest.doorEast = door
     }
 
     CanPutDoorNorthAt(x, y) {        
