@@ -13,3 +13,11 @@ function displayRoom(){
 
 
 }
+
+function drawRoom(room, screenX, screenY) {
+    
+    const roomSize = 100
+
+        
+
+}
