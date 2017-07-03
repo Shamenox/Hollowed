@@ -26,9 +26,7 @@ addEventListener("keydown", function(w) {
         case 32: key.space = true; break
         case 27: key.esc = true; break
         case 13: key.enter = true; break
-            
-       
-    
+              
         default:
             keyWasPressed = false
     }
@@ -62,8 +60,9 @@ document.onmouseup = function(trigger) {
     click = false;
 }
 document.onmousemove = function(m) {
-    cursor.x = m.pageX - document.getElementById("Canvas").offsetLeft;
-    cursor.y = m.pageY - document.getElementById("Canvas").offsetTop;
+    let canvasWidth = document.getElementById("Canvas").clientWidth
+    let canvasHeight = document.getElementById("Canvas").clientHeight
+
+    cursor.x = m.x / (canvasWidth / document.getElementById("Canvas").width)
+    cursor.y = m.y / (canvasHeight / document.getElementById("Canvas").height)
 }
-
-
