@@ -1,10 +1,10 @@
 var Game = {};
-var map = new Map(32, 32);
+var map = new Map(14, 14);
 var random = 0;
 var danger = false;
 var startRoom = {
-	x : 16,
-	y : 16
+	x : 6,
+	y : 2
 }
 
 player = {
