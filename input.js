@@ -9,60 +9,79 @@
 	space : false,
 	esc : false,
 	enter : false,
+};
+
+var cursor = { x : 0, y : 0, angle : 0};
+var click = false;
+cursor.display = function(){
+	if (click){ 
+		Helon.ctx.translate(cursor.x, cursor.y); // Drehung
+		Helon.ctx.rotate(cursor.angle * Math.PI / 180);
+		Helon.ctx.translate(-(cursor.x), -(cursor.y));
+		Helon.ctx.drawImage(Helon.ress.images.arrow, cursor.x, cursor.y); // Display
+		Helon.ctx.translate(cursor.x, cursor.y); // Rückdrehung
+		Helon.ctx.rotate(-cursor.angle * Math.PI / 180);
+		Helon.ctx.translate(-(cursor.x), -(cursor.y));
+	}
+	else {
+		Helon.ctx.drawImage(Helon.ress.images.cursor, cursor.x - 16, cursor.y);
+	}
 }
-var cursor = { x : 0, y : 0, angle : 0}
-var click = false
+cursor.angleTowards = function(angled){
+		if (this.x <= angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this. x)) / Math.PI * 180) + 90);
+		if (this.x > angled.x) return get360((Math.atan((angled.y -this.y) / (angled.x - this. x)) / Math.PI * 180) + 270);
+	}
+cursor.pointAt = function(da){
+	cursor.angle = cursor.angleTowards(da);
+}
 
 addEventListener("keydown", function(w) {
-    var keyWasPressed = null;
-    switch (w.keyCode) {
-        case 87: key.w = true; break
-        case 83: key.s = true; break
-        case 65: key.a = true; break
-        case 68: key.d = true; break
-        case 69: key.e = true; break
-        case 81: key.q = true; break
-        case 73: key.i = true; break
-        case 32: key.space = true; break
-        case 27: key.esc = true; break
-        case 13: key.enter = true; break
-              
-        default:
-            keyWasPressed = false
-    }
+	if (w.keyCode === 49) key.one = true;
+	if (w.keyCode === 50) key.two = true;
+	if (w.keyCode === 51) key.three = true;
+    if (w.keyCode === 87) key.w = true;
+    if (w.keyCode === 83) key.s = true;
+    if (w.keyCode === 65) key.a = true;
+    if (w.keyCode === 68) key.d = true;
+    if (w.keyCode === 69) key.e = true;
+	if (w.keyCode === 81) key.q = true;
+	if (w.keyCode === 73) key.i = true;
+	if (w.keyCode === 32) key.space = true;
+    if (w.keyCode === 27) key.esc = true;
+	if (w.keycode === 13) key.enter = true;
+	if (w.keyCode === 187) key.plus = true;
+	if (w.keyCode === 189) key.minus = true;
 
-    if (keyWasPressed) {
-        w.preventDefault()
-        w.stopPropagation()
-    }
-
-}, false)
+    w.preventDefault();
+    w.stopPropagation();
+}, false);
 addEventListener("keyup", function(w) {
-    switch (w.keyCode) {
-        case 87: key.w = false; break
-        case 83: key.s = false; break
-        case 65: key.a = false; break
-        case 68: key.d = false; break
-        case 69: key.e = false; break
-        case 81: key.q = false; break
-        case 73: key.i = false; break
-        case 32: key.space = false; break
-        case 27: key.esc = false; break
-        case 13: key.enter = false; break
-    }
-
+	if (w.keyCode === 49) key.one = false;
+	if (w.keyCode === 50) key.two = false;
+	if (w.keyCode === 51) key.three = false;
+    if (w.keyCode === 87) key.w = false;
+    if (w.keyCode === 83) key.s = false;
+    if (w.keyCode === 65) key.a = false;
+    if (w.keyCode === 68) key.d = false;
+    if (w.keyCode === 69) key.e = false;
+	if (w.keyCode === 81) key.q = false;
+	if (w.keyCode === 73) key.i = false;
+	if (w.keyCode === 32) key.space = false;
+    if (w.keyCode === 27) key.esc = false;
+	if (w.keycode === 13) key.enter = false;
+	if (w.keyCode === 187) key.plus = false;
+	if (w.keyCode === 189) key.minus = false;
 }, false);
 
 document.onmousedown = function(trigger) {
     click = true;
-}
+};
 document.onmouseup = function(trigger) {
     click = false;
-}
+};
 document.onmousemove = function(m) {
-    let canvasWidth = document.getElementById("Canvas").clientWidth
-    let canvasHeight = document.getElementById("Canvas").clientHeight
+    let canvas = document.getElementById("Canvas")
 
-    cursor.x = m.x / (canvasWidth / document.getElementById("Canvas").width)
-    cursor.y = m.y / (canvasHeight / document.getElementById("Canvas").height)
-}
+    cursor.x = (m.pageX - canvas.offsetLeft) * canvas.width / canvas.clientWidth;
+    cursor.y = (m.pageY - canvas.offsetTop) * canvas.height / canvas.clientHeight;
+};
